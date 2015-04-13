@@ -1,0 +1,12 @@
+#hit {
+  float: left;
+  margin-right: 9px; 
+}
+
+#stay {
+  float: left;
+}
+
+.card_image {
+   margin: 0px 6px 6px 0px;
+ }
