@@ -49,3 +49,13 @@
   <input class="btn btn-info" type="submit" value="STAY">
   </form>
 <% end %>
+
+<% if @play_again %>
+<h4>Would you like to play again?</h4>
+  <form id="hit" action='/s/game' method='get'>
+  <input class="btn btn-primary" type="submit" value="PLAY">
+  </form>
+  <form id="stay" action='/quit' method='post'>
+  <input class="btn btn-danger" type="submit" value="QUIT">
+  </form>
+<% end %>

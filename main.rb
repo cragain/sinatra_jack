@@ -51,6 +51,9 @@ get '/test' do
   erb :test_template
 end
 
+post '/quit' do
+  erb :game_over
+end
 
 get '/dealer_hit' do
   session[:dealer_cards] << session[:deck].pop
@@ -95,13 +98,17 @@ get '/winner' do
     
     if calculate_card_total(session[:dealer_cards]) > 21
        @success = "DEALER BUSTS- YOU WIN BABY!"
+       @play_again = true
      elsif calculate_card_total(session[:dealer_cards]) < 17
        @dealer_has_to_hit = true
     elsif calculate_card_total(session[:dealer_cards]) > calculate_card_total(session[:player_cards])
        @error = "OH NO, DEALER Wins..."
+       @play_again = true
     elsif calculate_card_total(session[:dealer_cards]) == calculate_card_total(session[:player_cards])
        @maybe = "CRAZY- ITS A TIE!!"
+       @play_again = true
     else @success = "WINNER WINNER CHICKEN DINNER, YOU WIN BABY!"
+      @play_again = true
     end
 
   erb :game
