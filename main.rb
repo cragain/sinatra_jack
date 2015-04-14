@@ -51,16 +51,15 @@ get '/test' do
   erb :test_template
 end
 
-post '/dealer_hit' do
-  
-  
+
+get '/dealer_hit' do
   session[:dealer_cards] << session[:deck].pop
   
   if calculate_card_total(session[:dealer_cards]) > 16
     @dealer_has_to_hit = false
+    redirect '/winner'
   end
-
-redirect '/winner'
+  redirect '/winner'
 end
 
 
@@ -96,6 +95,8 @@ get '/winner' do
     
     if calculate_card_total(session[:dealer_cards]) > 21
        @success = "DEALER BUSTS- YOU WIN BABY!"
+     elsif calculate_card_total(session[:dealer_cards]) < 17
+       @dealer_has_to_hit = true
     elsif calculate_card_total(session[:dealer_cards]) > calculate_card_total(session[:player_cards])
        @error = "OH NO, DEALER Wins..."
     elsif calculate_card_total(session[:dealer_cards]) == calculate_card_total(session[:player_cards])
