@@ -28,13 +28,11 @@
 
 <div class="well">
   <h4> <%= session[:player_name] %>'s Cards Are:</h4>
-
   <ul>
     <% session[:player_cards].each do |card| %>
       <%= card_image(card) %>
     <% end %>
   </ul>
-  
   <p>&nbsp</p>
   <h4>You currently have <%= calculate_card_total(session[:player_cards]) %></h4>
 </div>
@@ -52,8 +50,6 @@
   <input class="btn btn-info" type="submit" value="STAY">
   </form>
 <% end %>
-
-
 
 <% if @play_again %>
 <h4>Would you like to play again?</h4>

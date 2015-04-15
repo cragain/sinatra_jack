@@ -1,17 +1,12 @@
 require 'rubygems'
 require 'sinatra'
-require 'pry'
+
 
 set :sessions, true
 
 before do
   @show_hit_and_stay_button = true
-  
-  
 end
-
-
-
 
 get '/' do
   erb :set_name
@@ -28,14 +23,12 @@ post '/s/set_name' do
 end
 
 post '/set_bet' do
-
   session[:bet_amount] = params[:bet_amount].to_i
   redirect '/s/game'
 end
 
 
 get '/s/game' do
-  
   session[:turn] = session[:player_name]
   
   # Setup the Deck
@@ -61,7 +54,6 @@ get '/s/game' do
 end
 
 get '/test' do
-   
   erb :test_template
 end
 
@@ -104,8 +96,6 @@ post '/stay' do
     @dealer_has_to_hit = true
   else redirect '/winner'
   end
-  
-  
   erb :game
 end
 
@@ -130,7 +120,6 @@ get '/winner' do
       @play_again = true
       session[:player_wallet] = session[:bet_amount].to_i + session[:player_wallet]
     end
-
   erb :game
 end
 
@@ -181,12 +170,8 @@ helpers do
       end
     end
 
-    
     "<img src=/images/cards/#{suit}_#{value}.jpg class= 'card_image'>"
   end
-  
-  
-  
 end
 
 
