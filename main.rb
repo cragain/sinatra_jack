@@ -2,7 +2,9 @@ require 'rubygems'
 require 'sinatra'
 
 
-set :sessions, true
+use Rack::Session::Cookie, :key => 'rack.session',
+                           :path => '/',
+                           :secret => 'raptor1464' 
 
 before do
   @show_hit_and_stay_button = true
