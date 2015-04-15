@@ -33,11 +33,14 @@
     <% session[:player_cards].each do |card| %>
       <%= card_image(card) %>
     <% end %>
-    
   </ul>
   
   <p>&nbsp</p>
   <h4>You currently have <%= calculate_card_total(session[:player_cards]) %></h4>
+</div>
+
+<div class= "well">
+  <h4><%= session[:player_name] %> has a current bet of $<%= session[:bet_amount] %></h4>
 </div>
 
 <% if @show_hit_and_stay_button %>
@@ -50,9 +53,11 @@
   </form>
 <% end %>
 
+
+
 <% if @play_again %>
 <h4>Would you like to play again?</h4>
-  <form id="hit" action='/s/game' method='get'>
+  <form id="hit" action='/set_bet' method='get'>
   <input class="btn btn-primary" type="submit" value="PLAY">
   </form>
   <form id="stay" action='/quit' method='post'>

@@ -1,0 +1,9 @@
+<h4>Place Your Bet</h4>
+
+<h5> Your current funds: $ <%= session[:player_wallet].to_i %></h5>
+
+<form action='/set_bet' method='post'>
+  Place Your Bet: <input type='text' name='bet_amount'/>
+  <br/>
+  <input type='submit' class='btn'/>
+</form>

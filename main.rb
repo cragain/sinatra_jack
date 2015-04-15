@@ -6,6 +6,8 @@ set :sessions, true
 
 before do
   @show_hit_and_stay_button = true
+  
+  
 end
 
 
@@ -15,11 +17,22 @@ get '/' do
   erb :set_name
 end
 
-post '/s/set_name' do
+get '/set_bet' do
+  erb :set_bet
+end
 
+post '/s/set_name' do
+  session[:player_wallet] = 500.00
   session[:player_name] = params[:player_name]
+  redirect '/set_bet'
+end
+
+post '/set_bet' do
+
+  session[:bet_amount] = params[:bet_amount].to_i
   redirect '/s/game'
 end
+
 
 get '/s/game' do
   
@@ -41,6 +54,7 @@ get '/s/game' do
   if calculate_card_total(session[:player_cards]) == 21
     @success = "BLACKJACK BABY!!"
     @show_hit_and_stay_button = false
+    @play_again = true
   end
   
   erb :game
@@ -73,9 +87,11 @@ post '/hit_it' do
   if calculate_card_total(session[:player_cards]) == 21
     @success = "BLACKJACK BABY!!"
     @show_hit_and_stay_button = false
+    @play_again = true
   elsif calculate_card_total(session[:player_cards]) > 21
     @error = "Sorry, it seems you took one too many...BUSTED"
     @show_hit_and_stay_button = false
+    @play_again = true
   end
   erb :game
 end
@@ -99,16 +115,20 @@ get '/winner' do
     if calculate_card_total(session[:dealer_cards]) > 21
        @success = "DEALER BUSTS- YOU WIN BABY!"
        @play_again = true
+       session[:player_wallet] = session[:bet_amount].to_i + session[:player_wallet]
      elsif calculate_card_total(session[:dealer_cards]) < 17
        @dealer_has_to_hit = true
     elsif calculate_card_total(session[:dealer_cards]) > calculate_card_total(session[:player_cards])
        @error = "OH NO, DEALER Wins..."
        @play_again = true
+       session[:player_wallet] = session[:player_wallet] - session[:bet_amount].to_i
     elsif calculate_card_total(session[:dealer_cards]) == calculate_card_total(session[:player_cards])
        @maybe = "CRAZY- ITS A TIE!!"
        @play_again = true
+       session[:bet_amount] == 0
     else @success = "WINNER WINNER CHICKEN DINNER, YOU WIN BABY!"
       @play_again = true
+      session[:player_wallet] = session[:bet_amount].to_i + session[:player_wallet]
     end
 
   erb :game
@@ -165,9 +185,7 @@ helpers do
     "<img src=/images/cards/#{suit}_#{value}.jpg class= 'card_image'>"
   end
   
-  def dealer_bust
-    
-  end
+  
   
 end
 
